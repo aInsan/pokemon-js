@@ -11,7 +11,7 @@
 		font-family: "noto sans";
 		font-size:300%;
 		background-color: rgba(32, 32, 32, 1.0);
-		line-height:3;
+		line-height:2;
 	}
 	h1.dashed {border-style: dashed;}
 	h2.dashed {border-style: dashed;}
@@ -21,7 +21,7 @@
 		font-family: "noto sans";
 		font-size:75%;
 		background-color: rgba(32, 32, 32, 1.0);
-		line-height:3;
+		line-height:2;
 	}
 	button {
 	  border: none;
@@ -39,15 +39,18 @@
 	}
 </style>
 <h1 class="dashed">Pokemon Javascript</h1>
-<div style = "text-align:center;">
-<canvas></canvas>
-<p></p>
-<button onclick="window.open(
-  'https://github.com/aInsan/pokemon-js',
-  '_blank' // <- This is what makes it open in a new window.
-  )";>Github</button>
+<div style = "display: inline-block; position: relative ;">
+	<div
+		id = "overlappingDiv"
+		style="background-color: black; position: absolute; top: 0; bottom: 0; left: 0; right: 0;opacity: 0; pointer-events: none;"></div>
+	<canvas></canvas>
 </div>
+<p></p>
+<button onclick="window.open('https://github.com/aInsan/pokemon-js','_blank')";>
+	Github
+</button>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" integrity="sha512-f8mwTB+Bs8a5c46DEm7HQLcJuHMBaH/UFlcgyetMqqkvTcYg4g5VXsYR71b3qC82lZytjNYvBj2pf0VekA9/FQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="data/collisions.js"></script>
 <script src="data/encounters.js"></script>
 <script src="classes.js"></script>
