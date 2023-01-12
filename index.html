@@ -1,11 +1,55 @@
 <!DOCTYPE html>
 <style>
-body {
-	background-color: black;
-}
+	body {
+		margin-left: 5%;
+		margin-right: 5%;
+		background-color: rgba(24, 24, 24, 1.0);
+	}
+	h1 {
+		color: rgba(255, 255, 255, 1.0);
+		text-align:center;
+		font-family: "noto sans";
+		font-size:300%;
+		background-color: rgba(32, 32, 32, 1.0);
+		line-height:3;
+	}
+	h1.dashed {border-style: dashed;}
+	h2.dashed {border-style: dashed;}
+	h2{
+		color: rgba(255, 255, 255, 1.0);
+		text-align:center;
+		font-family: "noto sans";
+		font-size:75%;
+		background-color: rgba(32, 32, 32, 1.0);
+		line-height:3;
+	}
+	button {
+	  border: none;
+	  color: white;
+	  padding: 15px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+	  font-family: "noto sans";
+	  margin: 4px 2px;
+	  cursor: pointer;
+	  background-color: #9542bf;
+	  border-radius: 5px;
+	}
 </style>
+<h1 class="dashed">Pokemon Javascript</h1>
+<div style = "text-align:center;">
 <canvas></canvas>
+<p></p>
+<button onclick="window.open(
+  'https://github.com/aInsan/pokemon-js',
+  '_blank' // <- This is what makes it open in a new window.
+  )";>Github</button>
+</div>
+
 <script src="data/collisions.js"></script>
+<script src="data/encounters.js"></script>
 <script src="classes.js"></script>
 <script src="index.js"></script>
 <title>JS-mon</title>

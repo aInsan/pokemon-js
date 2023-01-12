@@ -4,21 +4,27 @@ const c = canvas.getContext('2d')
 canvas.width = 1024
 canvas.height = 576
 
+//create an empty array called collisionsMap
 const collisionsMap = []
+//iterating over the collisions array
 for (var i = 0; i < collisions.length; i+=70) {
+    //slicing the collisions array by 70 items and adding each slice to the collisionsMap array
 	collisionsMap.push(collisions.slice(i,i+70))	
 }
 
-
-
+//Create an empty array called boundaries
 const boundaries = []
+//An object that has two properties x and y which are used for offsetting the drawing position.
 const offset = {
 	x: -2016,
 	y: -364
 }
 
+//iterating over the collisionsMap array
 collisionsMap.forEach((row, i)  => {
-	row.forEach((symbol,j) => {
+	//iterating over each sub array of the collisionsMap
+    row.forEach((symbol,j) => {
+        //If the symbol is 5504, a new boundary object is created with the positions
 		if(symbol === 5504)
 		boundaries.push(
 			new Boundary({
@@ -31,6 +37,7 @@ collisionsMap.forEach((row, i)  => {
 	})
 })
 
+//create new Image elements
 const backgroundImage = new Image()
 backgroundImage.src = './img/StarterTown.png'
 
@@ -48,17 +55,20 @@ playerLeftImage.src = './img/mayLeft.png'
 
 const playerRightImage = new Image()
 playerRightImage.src = './img/mayRight.png'
-	
 
+// Create a new player sprite object
 const player = new Sprite({
 	position: {
 		x: canvas.width / 2 - 32,
 		y: canvas.height / 2 - 48
 	},
+	// assign playerDownImage to the image property
 	image: playerDownImage,
+	// create hframes object with max property
 	hframes: {
 		max:4
 	},
+	// create sprites object with four properties
 	sprites: {
 		up: playerUpImage,
 		down: playerDownImage,
@@ -67,22 +77,27 @@ const player = new Sprite({
 	}
 })
 
+// Create new sprite object for background
 const background = new Sprite({
 	position: {
 		x: offset.x,
 		y: offset.y
 	},
+	// assign backgroundImage to the image property
 	image: backgroundImage
 })
 
+// Create new sprite object for foreground
 const foreground = new Sprite({
 	position: {
 		x: offset.x,
 		y: offset.y
 	},
+	// assign foregroundImage to the image property
 	image: foregroundImage
 })
 
+//Create an object called keys
 const keys = {
 	w: {
 		pressed: false
@@ -97,7 +112,10 @@ const keys = {
 		pressed: false
 	}
 }
+// create a movables array containing background,boundaries and foreground
 const movables = [background, ...boundaries, foreground]
+
+
 
 function rectCollision({rect1, rect2}){
 	if(rect1 == player){
