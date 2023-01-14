@@ -23,8 +23,8 @@ for (var i = 0; i < encountersData.length; i+=70) {
 const boundaries = []
 //An object that has two properties x and y which are used for offsetting the drawing position.
 const offset = {
-	x: -2016,
-	y: -364
+	x: -1000,
+	y: -1300
 }
 
 //iterating over the collisionsMap array
@@ -208,11 +208,17 @@ function animate() {
 						onComplete(){
 							gsap.to('#overlappingDiv', {
 								opacity: 1,
-								duration: 0.3
-							})
-
-							//activate a new animation loop
-							animateBattle()
+								duration: 0.3,
+								onComplete(){
+									//activate a new animation loop
+									animateBattle()
+									gsap.to('#overlappingDiv', {
+										opacity:0,
+										duration:0.3
+									})
+									
+								}
+							})							
 						}
 					})
 					break
@@ -322,11 +328,55 @@ if(moving)
 }
 }
 
-animate()
+
+const battleImage = new Image()
+battleImage.src = './img/battleBackground.png'
+
+const playerMonImage = new Image()
+playerMonImage.src = './img/snakeSprite.png'
+
+const enemyMonImage = new Image()
+enemyMonImage.src = './img/mogusSprite.png'
+
+const snake = new Sprite({
+	position: {
+		x:200,
+		y:400
+	},
+	image: playerMonImage,
+	hframes: {
+		max:4
+	}
+})
+
+const mogus = new Sprite({
+	position: {
+		x:810,
+		y:265
+	},
+	image: enemyMonImage,
+	hframes: {
+		max: 4
+	}
+})
+
+const battleBack = new Sprite({
+	position: {
+		x:0,
+		y:4
+	},
+	image: battleImage
+})
 
 function animateBattle() {
-	window.requestAnimationFrame(animateBattle())
+	window.requestAnimationFrame(animateBattle)
+	battleBack.draw()
+	snake.draw()
+	mogus.draw()
 }
+
+// animate()
+animateBattle()
 
 
 //Listening to key inputs
