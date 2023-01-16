@@ -1,23 +1,35 @@
 class Sprite {
-	constructor({ position, image, hframes = {max : 1}, vframes = {max : 1}, sprites}) {
+	constructor({ 
+		position, 
+		image, 
+		frames = {max : 1, hold:10}, 
+		sprites, 
+		moving = false, 
+		isEnemy = false,
+		name
+	}) {
 		this.position = position
 		this.image = image
-		this.hframes = {...hframes, val: 0, elapsed: 0}
-		this.vframes = {...vframes, val: 0, elapsed: 0}
+		this.frames = {...frames, val: 0, elapsed: 0, hold: 10}
 
 		this.image.onload = () =>{
-			this.width = this.image.width/this.hframes.max
-			this.height =this.image.height/this.vframes.max
+			this.width = this.image.width/this.frames.max
+			this.height =this.image.height
 		}
-		this.moving = false
+		this.moving = moving
 		this.sprites = sprites
-		
+		this.opacity = 1
+		this.health = 100
+		this.isEnemy = isEnemy
+		this.name = name
 	}
 
 	draw() {
+		c.save()
+		c.globalAlpha = this.opacity
 		c.drawImage(
 		this.image,
-		this.hframes.val * this.width,
+		this.frames.val * this.width,
 		0,
 		this.width,
 		this.height,
@@ -26,23 +38,72 @@ class Sprite {
 		this.width, 
 		this.height
 		)
+		c.restore()
 
 		if(!this.moving) return
 
-		if(this.hframes.max > 1){
-			this.hframes.elapsed++
+		if(this.frames.max > 1){
+			this.frames.elapsed++
 		}
-		if(this.hframes.elapsed % 10 === 0){
-			if(this.hframes.val < this.hframes.max - 1) this.hframes.val++
-			else this.hframes.val = 0
-		}
-		if(this.vframes.max > 1){
-			this.vframes.elapsed++
-		}
-		if(this.vframes.elapsed % 10 === 0){
-			if(this.vframes.val < this.vframes.max - 1) this.vframes.val++
-			else this.vframes.val = 0
+		if(this.frames.elapsed % this.frames.hold === 0){
+			if(this.frames.val < this.frames.max - 1) this.frames.val++
+			else this.frames.val = 0
 		}	
+	}
+
+	faint(){
+		document.querySelector('#dialogBox').innerHTML = this.name + ' has fainted.'
+		gsap.to(this.position, {
+			y: this.position.y + 20
+		})
+		gsap.to(this.position, {
+			y: this.position.y
+		})
+	}
+
+	attack({attack, target}) {
+		document.querySelector('#dialogBox').style.display = 'block'
+		document.querySelector('#dialogBox').innerHTML = 
+		this.name + ' used ' + attack.name + '.'
+		const tl = gsap.timeline()
+
+		let healthBar = '#enemyHealthBar'
+		if(this.isEnemy) healthBar = '#playerHealthBar'
+		let movementDistance = 20
+		if(this.isEnemy) movementDistance = -20
+		target.health -= attack.damage
+		if(target.health <= 0){target.health = 0}
+		tl.to(this.position, {
+			x: this.position.x - movementDistance,
+			y: this.position.y + movementDistance
+		}).to(this.position, {
+			x: this.position.x + movementDistance*2,
+			duration: 0.1,
+			y: this.position.y - movementDistance*2,
+			duration: 0.1,
+			onComplete:() => {
+				gsap.to(healthBar, {
+					width: target.health + '%'
+				})
+				gsap.to(target.position, {
+					x: target.position.x + 10,
+					duration: 0.08,
+					yoyo:true,
+					repeat: 5
+				})
+
+				gsap.to(target, {
+					opacity:0,
+					repeat: 5,
+					yoyo: true,
+					duration: 0.08
+				})
+			}
+		}).to(this.position, {
+			x: this.position.x,
+			y: this.position.y
+		})
+		
 	}
 
 }

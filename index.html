@@ -1,58 +1,128 @@
 <!DOCTYPE html>
-<style>
-	body {
-		margin-left: 5%;
-		margin-right: 5%;
-		background-color: rgba(24, 24, 24, 1.0);
-	}
-	h1 {
-		color: rgba(255, 255, 255, 1.0);
-		text-align:center;
-		font-family: "noto sans";
-		font-size:300%;
-		background-color: rgba(32, 32, 32, 1.0);
-		line-height:2;
-	}
-	h1.dashed {border-style: dashed;}
-	h2.dashed {border-style: dashed;}
-	h2{
-		color: rgba(255, 255, 255, 1.0);
-		text-align:center;
-		font-family: "noto sans";
-		font-size:75%;
-		background-color: rgba(32, 32, 32, 1.0);
-		line-height:2;
-	}
-	button {
-	  border: none;
-	  color: white;
-	  padding: 15px 32px;
-	  text-align: center;
-	  text-decoration: none;
-	  display: inline-block;
-	  font-size: 16px;
-	  font-family: "noto sans";
-	  margin: 4px 2px;
-	  cursor: pointer;
-	  background-color: #9542bf;
-	  border-radius: 5px;
-	}
-</style>
-<h1 class="dashed">Pokemon Javascript</h1>
-<div style = "display: inline-block; position: relative ;">
-	<div
-		id = "overlappingDiv"
-		style="background-color: black; position: absolute; top: 0; bottom: 0; left: 0; right: 0;opacity: 0; pointer-events: none;"></div>
-	<canvas></canvas>
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+    * {
+        font-family: 'Press Start 2P', cursive;
+    }
+
+    body {
+        margin-left: 5%;
+        margin-right: 5%;
+        background-color: rgba(25, 25, 25, 1.0);
+    }
+
+    h1 {
+        color: rgba(255, 255, 255, 1.0);
+        text-align: center;
+        font-size: 16px;
+        background-color: rgba(25, 25, 25, 1.0);
+    }
+
+    button {
+        border: 4px lightpink inset;
+        color: white;
+        padding: 12px 15px;
+        margin: 6px 6px;
+        text-align: center;
+        ;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: rgba(25, 25, 25, 1.0);
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: rgba(55, 55, 55, 1.0);
+    }
+    </style>
+</head>
+<h1 style="font-size: 36px; line-height: 2;" background-color: rgba(25, 25, 25, 1.0);>Pokemon Javascript</h1>
+<div style="display: inline-block; position: relative ;">
+    <div id="overlappingDiv" style="background-color: black; position: absolute; top: 0; bottom: 0; left: 0; right: 0;opacity: 0; pointer-events: none; z-index: 10;"></div>
+    <canvas></canvas>
+    <div id = "userInterface" style = 'display: none;'>
+        <!-- ENEMY HEATH -->
+        <div style="background-color: rgba(25, 25, 25, 1.0);
+		width: 250px;
+		border: 4px lightpink inset;
+		border-radius: 5px;
+		position: absolute;
+		top: 50px;
+		left: 50px;">
+            <h1>Mogus</h1>
+            <div style="position: relative;">
+                <div style="background-color: white; height: 10px"></div>
+                <div id="enemyHealthBar" style="background-color: green; height: 10px; position: absolute; top:0; left:0;width:100%; right:0;"></div>
+            </div>
+        </div>
+        <!-- PLAYER HEALTH -->
+        <div style="background-color: rgba(25, 25, 25, 1.0);
+	width: 250px;
+	border: 4px lightpink inset;
+	border-radius: 5px;
+	position: absolute;
+	bottom: 170px;
+	right: 50px;">
+            <h1>Snake</h1>
+            <div style="position: relative;">
+                <div style="background-color: white; height: 10px"></div>
+                <div id="playerHealthBar" style="background-color: green; height: 10px; position: absolute; top:0; left:0;width:100%; right:0;"></div>
+            </div>
+        </div>
+        <!-- Dialog Box -->
+        <div style="background-color: rgba(25, 25, 25, 1.0);
+height: 160px;
+position: absolute;
+bottom:0;
+left: 0; 
+right: 0;
+border-top: 4px lightpink inset;
+display: flex;
+">
+            <div id='dialogBox' style="position: absolute;
+color: white;
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+cursor: pointer;
+background-color: rgba(25, 25, 25, 1.0);
+padding: 12px;
+display: none;
+">test</div>
+            <div style="width: 66.66%;
+display: grid;
+grid-template-columns: repeat(2, 1fr);">
+                <button id='attack'>Tackle</button>
+                <button id='attack'>PoisonSpit</button>
+                <button id='attack'>Leer</button>
+            </div>
+            <div style="display: flex;
+align-items: center;
+justify-content: center;
+width: 33.33%;
+border-left: 4px lightpink inset;
+">
+                <h1 id="attackType" style="margin: 0;
+background-color: rgba(25, 25, 25, 1.0);
+">Attack Type</h1>
+            </div>
+        </div>
+    </div>
 </div>
 <p></p>
-<button onclick="window.open('https://github.com/aInsan/pokemon-js','_blank')";>
-	Github
+<button onclick="window.open('https://github.com/aInsan/pokemon-js','_blank')" ; style="width:304px; height: 66px;">
+    Github
 </button>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" integrity="sha512-f8mwTB+Bs8a5c46DEm7HQLcJuHMBaH/UFlcgyetMqqkvTcYg4g5VXsYR71b3qC82lZytjNYvBj2pf0VekA9/FQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="data/collisions.js"></script>
 <script src="data/encounters.js"></script>
+<script src="data/attacks.js"></script>
 <script src="classes.js"></script>
 <script src="index.js"></script>
 <title>JS-mon</title>
