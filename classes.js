@@ -65,6 +65,7 @@ class Sprite {
 		document.querySelector('#dialogBox').style.display = 'block'
 		document.querySelector('#dialogBox').innerHTML = 
 		this.name + ' used ' + attack.name + '.'
+		// GSAP is a JavaScript library for building high-performance animations 
 		const tl = gsap.timeline()
 
 		let healthBar = '#enemyHealthBar'

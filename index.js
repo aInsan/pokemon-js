@@ -157,24 +157,15 @@ const movables = [background, ...boundaries, foreground, ...encounters]
 
 // The collision detection
 function rectCollision({ rect1, rect2 }) {
-    // if the player is the first collision object, set the the hit box to be shorter
+    // Set the the hit box to be shorter
     // so the player's head covers objects behind it.
-    if (rect1 == player) {
-        return (
-            rect1.position.x + rect1.width - 4 >= rect2.position.x &&
-            rect1.position.x + 4 <= rect2.position.x + rect2.width &&
-            rect1.position.y + 56 <= rect2.position.y + rect2.height &&
-            rect1.position.y + rect1.height - 8 >= rect2.position.y
+    return (
+        rect1.position.x + rect1.width - 4 >= rect2.position.x &&
+        rect1.position.x + 4 <= rect2.position.x + rect2.width &&
+        rect1.position.y + 56 <= rect2.position.y + rect2.height &&
+        rect1.position.y + rect1.height - 8 >= rect2.position.y
 
-        )
-    } else {
-        return (
-            rect1.position.x + rect1.width >= rect2.position.x &&
-            rect1.position.x <= rect2.position.x + rect2.width &&
-            rect1.position.y <= rect2.position.y + rect2.height &&
-            rect1.position.y + rect1.height >= rect2.position.y
-        )
-    }
+    )
 }
 
 const battle = {
